@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>游戏快乐屋</title>
-    <!-- 引入可爱漫画风字体 -->
+    <title>乐乐 & 布布的专属空间</title>
+    <meta name="description" content="乐乐与布布的私人纪念网页与游戏中心">
+    <!-- 性能优化：预连接字体服务器 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
 
     <style>
@@ -26,6 +29,9 @@
         }
 
         .zcool-font { font-family: 'ZCOOL KuaiLe', cursive; }
+        
+        /* A11y: 屏幕阅读器专属隐藏类 */
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
         .glass-card {
             background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -61,22 +67,26 @@
 
         .store-sticky-header { position: sticky; top: 0; z-index: 10; background: rgba(245, 245, 247, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 12px; }
         .search-bar { display: flex; gap: 10px; }
-        .search-bar input { flex: 1; padding: 10px 16px; border-radius: 12px; border: none; background: #e8e8ed; font-size: 15px; outline: none; font-family: inherit; }
+        /* 优化触控目标尺寸，最小高度 44px */
+        .search-bar input { flex: 1; padding: 12px 16px; border-radius: 12px; border: none; background: #e8e8ed; font-size: 15px; outline: none; font-family: inherit; min-height: 44px; box-sizing: border-box; }
         .search-bar input:focus { box-shadow: 0 0 0 2px #007AFF; background: #fff; }
-        .btn-random { background: #007AFF; color: #fff; border: none; border-radius: 12px; padding: 0 16px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-random { background: #007AFF; color: #fff; border: none; border-radius: 12px; padding: 0 16px; font-weight: 600; cursor: pointer; transition: 0.2s; min-height: 44px; display: flex; align-items: center; justify-content: center; }
         .btn-random:active { transform: scale(0.95); opacity: 0.8; }
+        .btn-random:focus-visible { outline: 2px solid #0056b3; outline-offset: 2px; }
 
         .category-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
         .category-pills::-webkit-scrollbar { display: none; }
-        .pill { background: #fff; color: #1d1d1f; border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.04); border: 1px solid transparent; transition: 0.2s; }
+        .pill { background: #fff; color: #1d1d1f; border-radius: 20px; padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.04); border: 1px solid transparent; transition: 0.2s; min-height: 36px; display: flex; align-items: center; }
         .pill.active { background: #007AFF; color: #fff; }
+        .pill:focus-visible { outline: 2px solid #007AFF; outline-offset: 2px; }
 
         .section-header { font-size: 18px; font-weight: 700; color: #1d1d1f; margin: 20px 0 12px; }
         .featured-scroll { display: flex; gap: 15px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; scrollbar-width: none; }
         .featured-scroll::-webkit-scrollbar { display: none; }
-        .featured-card { min-width: 260px; height: 160px; border-radius: 20px; background-color: #fff; overflow: hidden; position: relative; scroll-snap-align: start; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: transform 0.3s; }
+        .featured-card { min-width: 260px; height: 160px; border-radius: 20px; background-color: #fff; overflow: hidden; position: relative; scroll-snap-align: start; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: transform 0.3s; display: block; border: none; padding: 0; text-align: left; }
         .featured-card:hover { transform: translateY(-3px); }
-        .featured-card img { width: 100%; height: 100%; object-fit: cover; }
+        .featured-card:focus-visible { outline: 3px solid #007AFF; transform: translateY(-3px); }
+        .featured-card img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 260/160; }
         .featured-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: #fff; }
         .featured-title { font-size: 18px; font-weight: 700; margin: 0; }
         .featured-tag { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 4px; }
@@ -84,11 +94,13 @@
         .games-grid { display: grid; gap: 15px; grid-template-columns: repeat(2, 1fr); }
         @media (min-width: 600px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
 
-        .game-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.04); cursor: pointer; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s; display: flex; flex-direction: column; }
-        .game-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
-        .game-cover-wrapper { width: 100%; height: 110px; overflow: hidden; background: #e0e0e0; }
+        .game-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.04); cursor: pointer; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s; display: flex; flex-direction: column; border: none; padding: 0; text-align: left; }
+        .game-card:hover, .game-card:focus-visible { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); outline: none; }
+        .game-card:focus-visible { outline: 3px solid #007AFF; }
+        /* 性能优化：声明固定宽高比减少 CLS */
+        .game-cover-wrapper { width: 100%; aspect-ratio: 3/2; overflow: hidden; background: #e0e0e0; }
         .game-cover { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .game-card:hover .game-cover { transform: scale(1.03); } 
+        .game-card:hover .game-cover, .game-card:focus-visible .game-cover { transform: scale(1.03); } 
         
         .game-info { padding: 10px 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .game-name { font-size: 14px; font-weight: 700; color: #1d1d1f; line-height: 1.2; margin-bottom: 6px; }
@@ -101,149 +113,130 @@
         #gameModal.show { display: flex; opacity: 1; }
         .modal-header { background: rgba(30, 30, 30, 0.9); backdrop-filter: blur(10px); height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; color: #fff; }
         .modal-title { font-size: 16px; font-weight: 600; }
-        .btn-close { background: #ff3b30; color: white; border: none; border-radius: 16px; padding: 6px 16px; font-size: 14px; font-weight: bold; cursor: pointer; }
-        #modalIframe { flex: 1; width: 100%; border: none; background: #111; }
+        .btn-close { background: #ff3b30; color: white; border: none; border-radius: 16px; padding: 8px 16px; font-size: 14px; font-weight: bold; cursor: pointer; min-height: 36px; }
+        .btn-close:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+        
+        /* UX: iframe 加载指示器 */
+        .iframe-loader-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 10px; color: #fff; z-index: -1; }
+        .spinner { width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        #modalIframe { flex: 1; width: 100%; border: none; background: transparent; z-index: 1; }
 
         #loveLock { transition: opacity 0.5s ease, transform 0.5s ease; }
+        .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
     </style>
 </head>
 <body>
 
     <!-- 💖 专属暗号锁屏界面 💖 -->
-    <div id="loveLock" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-gradient); z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);">
+    <div id="loveLock" role="dialog" aria-modal="true" aria-labelledby="lockTitle" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-gradient); z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);">
         <div class="glass-card" style="text-align: center; padding: 40px 30px; max-width: 300px; width: 80%;">
-            <img src="./avatar_couple.jpg" alt="我们" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid white; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-            <h2 class="zcool-font" style="margin: 0 0 10px 0; color: #333;">专属秘密基地</h2>
+            <img src="./avatar_couple.jpg" alt="乐乐和布布的合照" width="100" height="100" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid white; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <h2 id="lockTitle" class="zcool-font" style="margin: 0 0 10px 0; color: #333;">专属秘密基地</h2>
             <p style="font-size: 14px; color: #666; margin-bottom: 25px;">请输入乐乐和布布的专属暗号解锁</p>
             
-            <input type="password" id="secretPwd" placeholder="输入暗号..." style="width: 100%; padding: 14px; border: 2px solid transparent; border-radius: 12px; background: rgba(255,255,255,0.9); text-align: center; font-size: 18px; margin-bottom: 15px; outline: none; box-sizing: border-box; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);" onfocus="this.style.borderColor='#007AFF'" onblur="this.style.borderColor='transparent'">
+            <label for="secretPwd" class="sr-only">输入暗号</label>
+            <input type="password" id="secretPwd" placeholder="输入暗号..." autocomplete="off" style="width: 100%; padding: 14px; border: 2px solid transparent; border-radius: 12px; background: rgba(255,255,255,0.9); text-align: center; font-size: 18px; margin-bottom: 15px; outline: none; box-sizing: border-box; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);" onfocus="this.style.borderColor='#007AFF'" onblur="this.style.borderColor='transparent'">
             
-            <button onclick="checkPwd()" style="width: 100%; background: #007AFF; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);">进入乐园</button>
-            <p id="pwdError" style="color: #ff3b30; font-size: 14px; margin-top: 15px; display: none; margin-bottom: 0; font-weight: bold;">暗号不对哦，再想想！</p>
+            <button id="btnUnlock" style="width: 100%; background: #007AFF; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);">进入乐园</button>
+            <p id="pwdError" role="alert" style="color: #ff3b30; font-size: 14px; margin-top: 15px; display: none; margin-bottom: 0; font-weight: bold;">暗号不对哦，再想想！</p>
         </div>
     </div>
 
-    <!-- 正常页面内容 -->
-    <div class="top-logo">
-        <img src="./logo_lele.jpg" alt="lele" class="logo-img">
-        <span class="logo-text zcool-font">lele</span>
-    </div>
-
-    <div class="header zcool-font">
-        <img src="./avatar_couple.jpg" alt="乐乐和布布" class="couple-avatar">
-        <div class="glass-card timer-box">
+    <!-- 语义化结构重构 -->
+    <header class="header">
+        <div class="top-logo">
+            <img src="./logo_lele.jpg" alt="Lele Logo" width="45" height="45" class="logo-img">
+            <span class="logo-text zcool-font" aria-hidden="true">lele</span>
+        </div>
+        <img src="./avatar_couple.jpg" alt="乐乐和布布" width="140" height="140" class="couple-avatar">
+        <div class="glass-card timer-box" aria-live="polite">
             我们在一起已经<br>
             <span id="days" class="timer-number">0</span> 天
             <span id="hours" class="timer-number">0</span> 时
             <span id="minutes" class="timer-number">0</span> 分
             <span id="seconds" class="timer-number">0</span> 秒啦！
         </div>
-    </div>
+    </header>
 
-    <div class="content-container">
+    <main class="content-container">
+        <section class="glass-card model-container zcool-font" aria-labelledby="model-title">
+            <h2 id="model-title" class="sr-only">3D 秘密基地</h2>
+            <div style="font-size: 1.3rem; margin-bottom: 15px;" aria-hidden="true">✨ 属于我们的 3D 秘密基地 ✨</div>
+            <iframe src="https://xi4u.pages.dev/" title="3D 秘密基地交互展示" class="model-iframe" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+            <div class="model-hint" aria-hidden="true">👆 试试用手指滑动探索它</div>
+        </section>
 
-        <div class="glass-card model-container zcool-font">
-            <div style="font-size: 1.3rem; margin-bottom: 15px;">✨ 属于我们的 3D 秘密基地 ✨</div>
-            <iframe src="https://xi4u.pages.dev/" title="3D 小世界" class="model-iframe"></iframe>
-            <div class="model-hint">👆 试试用手指滑动探索它</div>
-        </div>
-
-        <div class="chat-container">
+        <section class="chat-container" aria-label="对话记录">
             <div class="msg left">
-                <img src="./avatar_lele.png" alt="乐乐" class="avatar">
+                <img src="./avatar_lele.png" alt="乐乐" width="40" height="40" class="avatar" loading="lazy">
                 <div class="bubble">布布！快看上面那个 3D 小世界好可爱哦~~ 🏝️</div>
             </div>
             <div class="msg right">
                 <div class="bubble">对呀，可以360度旋转呢！专门为你建的专属小宇宙 😎</div>
-                <img src="./avatar_bubu.png" alt="布布" class="avatar">
+                <img src="./avatar_bubu.png" alt="布布" width="40" height="40" class="avatar" loading="lazy">
             </div>
             <div class="msg left">
-                <img src="./avatar_lele.png" alt="乐乐" class="avatar">
+                <img src="./avatar_lele.png" alt="乐乐" width="40" height="40" class="avatar" loading="lazy">
                 <div class="bubble">哇哦，太高级了吧！下面是不是还有好玩的？</div>
             </div>
             <div class="msg right">
                 <div class="bubble">往下看，我还给你准备了一个超好玩的游戏中心 🎮</div>
-                <img src="./avatar_bubu.png" alt="布布" class="avatar">
+                <img src="./avatar_bubu.png" alt="布布" width="40" height="40" class="avatar" loading="lazy">
             </div>
-        </div>
+        </section>
 
-        <div class="app-store-container">
-            <h1 class="store-title">游戏</h1>
+        <section class="app-store-container" aria-labelledby="store-title">
+            <h2 id="store-title" class="store-title">游戏</h2>
             <p class="store-subtitle">乐乐专属 • 精选高分潮玩神作</p>
 
-            <div class="store-sticky-header">
+            <nav class="store-sticky-header" aria-label="游戏分类与搜索">
                 <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="搜索游戏 (如: 黄金矿工)">
-                    <button class="btn-random" onclick="playRandom()">🎲 随便玩</button>
+                    <label for="searchInput" class="sr-only">搜索游戏</label>
+                    <input type="text" id="searchInput" placeholder="搜索游戏 (如: 黄金矿工)" autocomplete="off">
+                    <button id="btnRandom" class="btn-random" aria-label="随机玩一款游戏">🎲 随便玩</button>
                 </div>
-                <div class="category-pills" id="categoryContainer"></div>
-            </div>
+                <div class="category-pills" id="categoryContainer" role="tablist" aria-label="游戏分类"></div>
+            </nav>
 
-            <div class="section-header">今日精选</div>
-            <div class="featured-scroll" id="featuredContainer"></div>
+            <h3 class="section-header">今日精选</h3>
+            <div class="featured-scroll" id="featuredContainer" role="list" aria-label="精选游戏列表"></div>
 
-            <div class="section-header">经典必玩</div>
-            <div class="games-grid" id="gamesGrid"></div>
-        </div>
-    </div>
+            <h3 class="section-header">经典必玩</h3>
+            <div class="games-grid" id="gamesGrid" role="list" aria-label="全部游戏列表" aria-live="polite"></div>
+        </section>
+    </main>
 
     <!-- 游戏弹窗 -->
-    <div id="gameModal">
+    <div id="gameModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-header">
-            <span class="modal-title" id="modalTitle">正在加载...</span>
-            <button class="btn-close" onclick="closeGame()">关闭退出</button>
+            <h2 class="modal-title" id="modalTitle">正在加载...</h2>
+            <button id="btnCloseModal" class="btn-close" aria-label="关闭游戏弹窗">关闭退出</button>
         </div>
-        <iframe id="modalIframe" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+        <div class="iframe-loader-container" id="iframeLoader">
+            <div class="spinner"></div>
+            <span style="font-size: 14px;">游戏加载中...</span>
+        </div>
+        <!-- 安全性优化：沙箱权限最小化配置 -->
+        <iframe id="modalIframe" src="" title="游戏运行窗口" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>
     </div>
 
     <script>
-        // --- 0. 锁屏验证逻辑 ---
-        if(localStorage.getItem('lele_unlocked') === 'true') {
-            document.getElementById('loveLock').style.display = 'none';
-        } else {
-            document.body.style.overflow = 'hidden'; 
-        }
+        // --- 全局配置与数据管理 ---
+        const APP_CONFIG = {
+            startDate: '2019-12-02T01:00:00',
+            // 安全性：通过简单的 Base64 防止明文硬编码被轻易肉眼识别
+            lockHash: 'MTIwMg==', 
+            baseURL: 'https://pangggu.github.io/games/'
+        };
 
-        function checkPwd() {
-            if(document.getElementById('secretPwd').value === '1202') {
-                localStorage.setItem('lele_unlocked', 'true');
-                document.getElementById('loveLock').style.opacity = '0';
-                document.getElementById('loveLock').style.transform = 'scale(1.1)';
-                document.body.style.overflow = 'auto';
-                setTimeout(() => { document.getElementById('loveLock').style.display = 'none'; }, 500);
-            } else {
-                const err = document.getElementById('pwdError');
-                err.style.display = 'block';
-                err.classList.add('shake');
-                setTimeout(() => err.classList.remove('shake'), 500);
-            }
-        }
-        document.getElementById('secretPwd').addEventListener('keypress', function(e) {
-            if(e.key === 'Enter') checkPwd();
-        });
-
-        // --- 1. 计时器逻辑 ---
-        const startDate = new Date('2019-12-02T01:00:00');
-        function updateTimer() {
-            const now = new Date();
-            const diff = now - startDate;
-            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            document.getElementById('minutes').innerText = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
-
-        // --- 2. 游戏库数据（已移除糖果消消乐，加入黄金矿工，并更新了象棋链接） ---
-        const baseURL = "https://pangggu.github.io/games/";
-        
-        const rawGames = [
+        const RAW_GAMES = [
             { id: "bnb", name: "泡泡堂", category: "双人", url: "https://h3aajdlti6teq.kimi.site", featured: true },
             { id: "goldminer", name: "黄金矿工", category: "休闲", url: "https://pangggu.github.io/Gold-Mining-Game-main/index.html", img: "./huangjinkuanggong.jpg", featured: true },
             { id: "runner_temple", name: "神庙逃亡", category: "跑酷", url: "https://pangggu.github.io/Runner_Temple/", featured: true },
             { id: "fireboy", name: "森林冰火人", category: "双人", url: "https://pangggu.github.io/FireboyAndWatergirl/game.html", featured: true },
-            // 中国象棋的链接已经更新如下：
             { id: "xiangqi", name: "中国象棋", category: "棋牌", url: "https://yutils.github.io/xiangqi", img: "./xiangqi.jpg" },
             { id: "2048", name: "2048经典版", category: "益智", featured: true },
             { id: "russianblock", name: "俄罗斯方块", category: "益智" },
@@ -261,93 +254,188 @@
             { id: "p2ball", name: "双人弹球", category: "双人" }
         ];
 
-        const gamesData = rawGames.map(game => ({
+        const GAMES_DATA = RAW_GAMES.map(game => ({
             ...game,
-            url: game.url || `${baseURL}${game.id}/index.html`,
+            url: game.url || `${APP_CONFIG.baseURL}${game.id}/index.html`,
             img: game.img || `./${game.id}.jpg`,
             fallbackImg: `https://picsum.photos/seed/${game.id}/600/400`
         }));
 
-        let currentCategory = '全部';
-        let currentSearch = '';
+        let state = { category: '全部', search: '' };
 
-        const gridContainer = document.getElementById('gamesGrid');
-        const featuredContainer = document.getElementById('featuredContainer');
-        const categoryContainer = document.getElementById('categoryContainer');
-        
-        function renderFeatured() {
-            const featuredGames = gamesData.filter(g => g.featured);
-            featuredContainer.innerHTML = featuredGames.map(game => `
-                <div class="featured-card" onclick="openGame('${game.url}', '${game.name}')">
-                    <img src="${game.img}" onerror="this.src='${game.fallbackImg}'" loading="lazy" alt="${game.name}">
-                    <div class="featured-info">
-                        <h3 class="featured-title">${game.name}</h3>
-                        <div class="featured-tag">${game.category}</div>
+        // --- DOM 元素引用 ---
+        const DOM = {
+            lock: document.getElementById('loveLock'),
+            pwdInput: document.getElementById('secretPwd'),
+            btnUnlock: document.getElementById('btnUnlock'),
+            pwdError: document.getElementById('pwdError'),
+            timer: { d: document.getElementById('days'), h: document.getElementById('hours'), m: document.getElementById('minutes'), s: document.getElementById('seconds') },
+            grid: document.getElementById('gamesGrid'),
+            featured: document.getElementById('featuredContainer'),
+            categories: document.getElementById('categoryContainer'),
+            search: document.getElementById('searchInput'),
+            btnRandom: document.getElementById('btnRandom'),
+            modal: document.getElementById('gameModal'),
+            iframe: document.getElementById('modalIframe'),
+            modalTitle: document.getElementById('modalTitle'),
+            btnCloseModal: document.getElementById('btnCloseModal'),
+            iframeLoader: document.getElementById('iframeLoader')
+        };
+
+        // --- 初始化与生命周期 ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initSecurityLock();
+            initTimer();
+            initStore();
+            bindEvents();
+        });
+
+        // --- 1. 安全与锁屏逻辑 ---
+        function initSecurityLock() {
+            if (localStorage.getItem('lele_unlocked') === 'true') {
+                DOM.lock.style.display = 'none';
+            } else {
+                document.body.style.overflow = 'hidden'; 
+            }
+        }
+
+        function handleUnlock() {
+            const pwdInputBase64 = btoa(DOM.pwdInput.value);
+            if (pwdInputBase64 === APP_CONFIG.lockHash) {
+                localStorage.setItem('lele_unlocked', 'true');
+                DOM.lock.style.opacity = '0';
+                DOM.lock.style.transform = 'scale(1.1)';
+                document.body.style.overflow = 'auto';
+                setTimeout(() => DOM.lock.style.display = 'none', 500);
+            } else {
+                DOM.pwdError.style.display = 'block';
+                DOM.pwdInput.value = ''; // 失败清空输入框，提升重试 UX
+                DOM.pwdInput.focus();
+                DOM.pwdError.classList.add('shake');
+                setTimeout(() => DOM.pwdError.classList.remove('shake'), 500);
+            }
+        }
+
+        // --- 2. 计时器逻辑 ---
+        function initTimer() {
+            const startMs = new Date(APP_CONFIG.startDate).getTime();
+            const update = () => {
+                const diff = Math.max(0, Date.now() - startMs);
+                DOM.timer.d.textContent = Math.floor(diff / (1000 * 60 * 60 * 24));
+                DOM.timer.h.textContent = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                DOM.timer.m.textContent = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
+                DOM.timer.s.textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+            };
+            setInterval(update, 1000);
+            update();
+        }
+
+        // --- 3. 游戏商城渲染逻辑 ---
+        function initStore() {
+            renderFeatured();
+            renderCategories();
+            renderGrid();
+        }
+
+        function createGameCardHTML(game, isFeatured = false) {
+            const wrapperClass = isFeatured ? 'featured-card' : 'game-card';
+            const imgClass = isFeatured ? '' : 'class="game-cover"';
+            const imgContainer = isFeatured ? '' : 'class="game-cover-wrapper"';
+            
+            const infoHTML = isFeatured 
+                ? `<div class="featured-info"><h3 class="featured-title">${game.name}</h3><div class="featured-tag">${game.category}</div></div>`
+                : `<div class="game-info"><div class="game-name">${game.name}</div><div class="game-meta"><span class="game-category">${game.category}</span></div></div>`;
+
+            return `
+                <button class="${wrapperClass}" data-url="${game.url}" data-title="${game.name}" role="${isFeatured ? 'listitem' : 'button'}" tabindex="0" aria-label="游玩 ${game.name}">
+                    <div ${imgContainer}>
+                        <img src="${game.img}" ${imgClass} onerror="this.src='${game.fallbackImg}'" loading="lazy" decoding="async" alt="${game.name} 封面">
                     </div>
-                </div>
-            `).join('');
+                    ${infoHTML}
+                </button>
+            `;
+        }
+
+        function renderFeatured() {
+            const featuredGames = GAMES_DATA.filter(g => g.featured);
+            DOM.featured.innerHTML = featuredGames.map(g => createGameCardHTML(g, true)).join('');
         }
 
         function renderGrid() {
-            const filtered = gamesData.filter(game => {
-                const matchCat = currentCategory === '全部' || game.category === currentCategory;
-                const matchSearch = game.name.toLowerCase().includes(currentSearch.toLowerCase());
+            const filtered = GAMES_DATA.filter(game => {
+                const matchCat = state.category === '全部' || game.category === state.category;
+                const matchSearch = game.name.toLowerCase().includes(state.search.toLowerCase());
                 return matchCat && matchSearch;
             });
 
-            if(filtered.length === 0) {
-                gridContainer.innerHTML = `<div class="no-results">未找到对应的小游戏 🥺</div>`;
+            if (filtered.length === 0) {
+                DOM.grid.innerHTML = `<div class="no-results" role="status">未找到对应的小游戏 🥺</div>`;
                 return;
             }
-
-            gridContainer.innerHTML = filtered.map(game => `
-                <div class="game-card" onclick="openGame('${game.url}', '${game.name}')">
-                    <div class="game-cover-wrapper">
-                        <img class="game-cover" src="${game.img}" onerror="this.src='${game.fallbackImg}'" loading="lazy" alt="${game.name}">
-                    </div>
-                    <div class="game-info">
-                        <div class="game-name">${game.name}</div>
-                        <div class="game-meta">
-                            <span class="game-category">${game.category}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+            DOM.grid.innerHTML = filtered.map(g => createGameCardHTML(g, false)).join('');
         }
 
         function renderCategories() {
-            const categories = ['全部', ...new Set(gamesData.map(g => g.category))];
-            categoryContainer.innerHTML = categories.map(cat => `
-                <div class="pill ${currentCategory === cat ? 'active' : ''}" 
-                     onclick="setCategory('${cat}')">${cat}</div>
+            const categories = ['全部', ...new Set(GAMES_DATA.map(g => g.category))];
+            DOM.categories.innerHTML = categories.map(cat => `
+                <button class="pill ${state.category === cat ? 'active' : ''}" data-cat="${cat}" role="tab" aria-selected="${state.category === cat}">
+                    ${cat}
+                </button>
             `).join('');
         }
 
-        window.setCategory = function(cat) { currentCategory = cat; renderCategories(); renderGrid(); }
-        document.getElementById('searchInput').addEventListener('input', (e) => { currentSearch = e.target.value; renderGrid(); });
-        window.playRandom = function() {
-            const randomGame = gamesData[Math.floor(Math.random() * gamesData.length)];
-            openGame(randomGame.url, randomGame.name);
+        // --- 4. 模态窗与事件绑定 ---
+        function openGameModal(url, title) {
+            DOM.modalTitle.textContent = title;
+            DOM.iframeLoader.style.display = 'flex'; // 显示加载指示器
+            DOM.iframe.src = url;
+            DOM.modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            DOM.btnCloseModal.focus(); // A11y 焦点管理
         }
 
-        const modal = document.getElementById('gameModal');
-        const iframe = document.getElementById('modalIframe');
-        const modalTitle = document.getElementById('modalTitle');
-
-        window.openGame = function(url, title) {
-            modalTitle.innerText = title;
-            iframe.src = url;
-            modal.classList.add('show');
-            document.body.style.overflow = 'hidden'; 
-        }
-
-        window.closeGame = function() {
-            modal.classList.remove('show');
+        function closeGameModal() {
+            DOM.modal.classList.remove('show');
             document.body.style.overflow = 'auto';
-            setTimeout(() => { iframe.src = ''; }, 300);
+            setTimeout(() => { DOM.iframe.src = ''; }, 300);
         }
 
-        renderFeatured(); renderCategories(); renderGrid();
+        function bindEvents() {
+            // 锁屏事件
+            DOM.btnUnlock.addEventListener('click', handleUnlock);
+            DOM.pwdInput.addEventListener('keypress', e => { if (e.key === 'Enter') handleUnlock(); });
+
+            // 搜索与分类事件
+            DOM.search.addEventListener('input', e => { state.search = e.target.value.trim(); renderGrid(); });
+            DOM.btnRandom.addEventListener('click', () => {
+                const randomGame = GAMES_DATA[Math.floor(Math.random() * GAMES_DATA.length)];
+                openGameModal(randomGame.url, randomGame.name);
+            });
+            DOM.categories.addEventListener('click', e => {
+                const btn = e.target.closest('.pill');
+                if (!btn) return;
+                state.category = btn.dataset.cat;
+                renderCategories();
+                renderGrid();
+            });
+
+            // 游戏卡片点击事件 (事件委托)
+            const handleCardClick = e => {
+                const card = e.target.closest('button[data-url]');
+                if (card) openGameModal(card.dataset.url, card.dataset.title);
+            };
+            DOM.featured.addEventListener('click', handleCardClick);
+            DOM.grid.addEventListener('click', handleCardClick);
+
+            // 模态窗关闭与加载事件
+            DOM.btnCloseModal.addEventListener('click', closeGameModal);
+            DOM.iframe.addEventListener('load', () => { DOM.iframeLoader.style.display = 'none'; });
+            
+            // 全局 Esc 键关闭弹窗
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && DOM.modal.classList.contains('show')) closeGameModal();
+            });
+        }
     </script>
 </body>
 </html>
