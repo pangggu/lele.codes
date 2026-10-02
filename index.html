@@ -3,235 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>乐乐 & 布布的专属空间</title>
+    <title>乐乐 & 布布 | 专属空间</title>
     <meta name="description" content="乐乐与布布的私人纪念网页与游戏中心">
-    <!-- 性能优化：预连接字体服务器 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
-
+    
     <style>
+        /* --- 顶级 UI 变量系统 --- */
         :root {
-            --bg-gradient: linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%);
-            --glass-bg: rgba(255, 255, 255, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-            --lele-bubble: #007AFF;
-            --bubu-bubble: rgba(255, 255, 255, 0.7);
-            --text-color: #333;
+            --bg-color: #f5f5f7; /* Apple 经典背景色 */
+            --card-bg: rgba(255, 255, 255, 0.65);
+            --card-border: rgba(255, 255, 255, 0.8);
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+            --card-hover-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-color: #0071e3; /* 高级科技蓝 */
+            --accent-hover: #0077ed;
+            
+            --bubu-chat: #e9e9eb;
+            --lele-chat: #0071e3;
+            
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         body, html {
             margin: 0; padding: 0;
-            background: var(--bg-gradient); background-attachment: fixed;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-color); overflow-x: hidden;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(28,100%,74%,0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(189,100%,56%,0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .zcool-font { font-family: 'ZCOOL KuaiLe', cursive; }
-        
-        /* A11y: 屏幕阅读器专属隐藏类 */
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
-        .glass-card {
-            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow); padding: 20px;
+        /* --- 核心毛玻璃卡片 --- */
+        .glass-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--card-shadow);
         }
 
-        .top-logo { position: absolute; top: 20px; left: 20px; display: flex; align-items: center; gap: 10px; z-index: 10; }
-        .logo-img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .logo-text { font-size: 1.6rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.1); letter-spacing: 2px; }
-        .header { text-align: center; padding: 80px 20px 30px; }
-        .couple-avatar { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 4px solid rgba(255, 255, 255, 0.8); box-shadow: 0 8px 20px rgba(0,0,0,0.15); margin: 0 auto; display: block; }
-        .timer-box { margin-top: 25px; display: inline-block; font-size: 1.2rem; color: #444; }
-        .timer-number { color: #007AFF; font-size: 1.4rem; font-weight: bold; }
+        /* --- 页面主容器 --- */
+        .layout-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
 
-        .content-container { max-width: 600px; margin: 0 auto; padding: 0 20px 40px; display: flex; flex-direction: column; gap: 30px; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .model-container { width: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
-        .model-iframe { width: 100%; height: 400px; border: none; border-radius: 16px; background-color: transparent; }
-        .model-hint { margin-top: 12px; font-size: 0.9rem; color: #666; background: rgba(255,255,255,0.5); padding: 6px 16px; border-radius: 20px; }
+        /* --- Bento Box 便当盒网格布局 --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        @media (min-width: 768px) {
+            .bento-grid { grid-template-columns: 1fr 1.5fr; }
+        }
 
-        .chat-container { display: flex; flex-direction: column; gap: 15px; font-family: 'ZCOOL KuaiLe', cursive; }
-        .msg { display: flex; align-items: flex-end; max-width: 100%; }
-        .msg.left { align-self: flex-start; }
-        .msg.right { align-self: flex-end; flex-direction: row-reverse; }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid white; margin: 0 10px; }
-        .bubble { padding: 12px 18px; border-radius: 20px; font-size: 1.1rem; line-height: 1.4; max-width: 70%; word-wrap: break-word; }
-        .msg.left .bubble { background-color: var(--bubu-bubble); border-bottom-left-radius: 4px; color: #333; }
-        .msg.right .bubble { background-color: var(--lele-bubble); border-bottom-right-radius: 4px; color: white; }
+        .bento-col { display: flex; flex-direction: column; gap: 24px; }
 
-        .app-store-container { background-color: #f5f5f7; border-radius: 24px; padding: 20px 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
-        .store-title { font-size: 28px; font-weight: 800; color: #1d1d1f; margin: 0; }
-        .store-subtitle { font-size: 14px; color: #86868b; margin-top: 4px; margin-bottom: 15px; }
+        /* 欢迎卡片 */
+        .welcome-card { padding: 32px; display: flex; align-items: center; gap: 20px; }
+        .welcome-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        .welcome-text h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+        .welcome-text p { margin: 6px 0 0; color: var(--text-secondary); font-size: 15px; }
 
-        .store-sticky-header { position: sticky; top: 0; z-index: 10; background: rgba(245, 245, 247, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 12px; }
-        .search-bar { display: flex; gap: 10px; }
-        /* 优化触控目标尺寸，最小高度 44px */
-        .search-bar input { flex: 1; padding: 12px 16px; border-radius: 12px; border: none; background: #e8e8ed; font-size: 15px; outline: none; font-family: inherit; min-height: 44px; box-sizing: border-box; }
-        .search-bar input:focus { box-shadow: 0 0 0 2px #007AFF; background: #fff; }
-        .btn-random { background: #007AFF; color: #fff; border: none; border-radius: 12px; padding: 0 16px; font-weight: 600; cursor: pointer; transition: 0.2s; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-        .btn-random:active { transform: scale(0.95); opacity: 0.8; }
-        .btn-random:focus-visible { outline: 2px solid #0056b3; outline-offset: 2px; }
+        /* 计时器卡片 */
+        .timer-card { padding: 32px; text-align: center; display: flex; flex-direction: column; justify-content: center; flex: 1; }
+        .timer-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .timer-item { display: flex; flex-direction: column; align-items: center; }
+        .timer-val { font-size: 32px; font-weight: 800; color: var(--accent-color); font-variant-numeric: tabular-nums; line-height: 1; }
+        .timer-lbl { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-top: 6px; }
 
-        .category-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        /* 3D 岛屿卡片 */
+        .model-card { padding: 0; overflow: hidden; position: relative; height: 100%; min-height: 300px; display: flex; flex-direction: column; }
+        .model-card .card-badge { position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--text-primary); z-index: 10; pointer-events: none; }
+        .model-iframe { width: 100%; flex: 1; border: none; background: transparent; }
+
+        /* 聊天卡片 */
+        .chat-card { padding: 32px; }
+        .chat-title { font-size: 18px; font-weight: 700; margin: 0 0 24px 0; display: flex; align-items: center; gap: 8px; }
+        .chat-title::before { content: ''; width: 8px; height: 8px; background: #34c759; border-radius: 50%; display: inline-block; }
+        .msg-list { display: flex; flex-direction: column; gap: 16px; }
+        .msg { display: flex; align-items: flex-end; gap: 10px; }
+        .msg.right { flex-direction: row-reverse; }
+        .chat-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+        .bubble { padding: 12px 16px; border-radius: 20px; font-size: 15px; line-height: 1.4; max-width: 75%; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .msg.left .bubble { background: var(--bubu-chat); color: var(--text-primary); border-bottom-left-radius: 4px; }
+        .msg.right .bubble { background: var(--lele-chat); color: white; border-bottom-right-radius: 4px; }
+
+        /* --- 游戏中心区块 --- */
+        .store-section { margin-top: 20px; }
+        .store-header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .store-header h2 { font-size: 32px; font-weight: 800; margin: 0; letter-spacing: -1px; }
+        
+        .controls-row { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; align-items: center; }
+        .search-bar { flex: 1; min-width: 200px; position: relative; }
+        .search-bar input { width: 100%; padding: 14px 20px; border-radius: var(--radius-md); border: 1px solid rgba(0,0,0,0.05); background: var(--card-bg); font-size: 15px; outline: none; transition: var(--transition-smooth); box-shadow: 0 2px 10px rgba(0,0,0,0.02); box-sizing: border-box; backdrop-filter: blur(10px); }
+        .search-bar input:focus { border-color: var(--accent-color); box-shadow: 0 0 0 4px rgba(0,113,227,0.15); background: #fff; }
+        .btn-random { background: var(--accent-color); color: #fff; border: none; border-radius: var(--radius-md); padding: 0 24px; font-weight: 600; cursor: pointer; transition: var(--transition-smooth); min-height: 48px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,113,227,0.3); }
+        .btn-random:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,113,227,0.4); }
+        
+        .category-pills { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; width: 100%; }
         .category-pills::-webkit-scrollbar { display: none; }
-        .pill { background: #fff; color: #1d1d1f; border-radius: 20px; padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.04); border: 1px solid transparent; transition: 0.2s; min-height: 36px; display: flex; align-items: center; }
-        .pill.active { background: #007AFF; color: #fff; }
-        .pill:focus-visible { outline: 2px solid #007AFF; outline-offset: 2px; }
+        .pill { background: transparent; color: var(--text-secondary); border-radius: 20px; padding: 8px 20px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; border: 1px solid transparent; transition: var(--transition-smooth); }
+        .pill:hover { background: rgba(0,0,0,0.04); color: var(--text-primary); }
+        .pill.active { background: var(--text-primary); color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        .section-header { font-size: 18px; font-weight: 700; color: #1d1d1f; margin: 20px 0 12px; }
-        .featured-scroll { display: flex; gap: 15px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; scrollbar-width: none; }
-        .featured-scroll::-webkit-scrollbar { display: none; }
-        .featured-card { min-width: 260px; height: 160px; border-radius: 20px; background-color: #fff; overflow: hidden; position: relative; scroll-snap-align: start; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: transform 0.3s; display: block; border: none; padding: 0; text-align: left; }
-        .featured-card:hover { transform: translateY(-3px); }
-        .featured-card:focus-visible { outline: 3px solid #007AFF; transform: translateY(-3px); }
-        .featured-card img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 260/160; }
-        .featured-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: #fff; }
-        .featured-title { font-size: 18px; font-weight: 700; margin: 0; }
-        .featured-tag { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 4px; }
-
-        .games-grid { display: grid; gap: 15px; grid-template-columns: repeat(2, 1fr); }
-        @media (min-width: 600px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
-
-        .game-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.04); cursor: pointer; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s; display: flex; flex-direction: column; border: none; padding: 0; text-align: left; }
-        .game-card:hover, .game-card:focus-visible { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); outline: none; }
-        .game-card:focus-visible { outline: 3px solid #007AFF; }
-        /* 性能优化：声明固定宽高比减少 CLS */
-        .game-cover-wrapper { width: 100%; aspect-ratio: 3/2; overflow: hidden; background: #e0e0e0; }
-        .game-cover { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .game-card:hover .game-cover, .game-card:focus-visible .game-cover { transform: scale(1.03); } 
+        .section-title { font-size: 20px; font-weight: 700; margin: 0 0 16px 0; }
         
-        .game-info { padding: 10px 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .game-name { font-size: 14px; font-weight: 700; color: #1d1d1f; line-height: 1.2; margin-bottom: 6px; }
-        .game-meta { display: flex; justify-content: space-between; align-items: center; }
-        .game-category { font-size: 11px; font-weight: 600; color: #007AFF; background: rgba(0,122,255,0.1); padding: 3px 8px; border-radius: 8px; }
-        
-        .no-results { text-align: center; color: #86868b; padding: 30px; grid-column: 1 / -1; }
+        /* 游戏网格 */
+        .games-grid { display: grid; gap: 20px; grid-template-columns: repeat(2, 1fr); margin-bottom: 40px; }
+        @media (min-width: 600px) { .games-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 800px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
 
-        #gameModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 9999; display: none; flex-direction: column; opacity: 0; transition: opacity 0.3s; }
+        .game-card { background: var(--card-bg); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--card-shadow); cursor: pointer; transition: var(--transition-smooth); display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.5); padding: 0; text-align: left; text-decoration: none; position: relative; }
+        .game-card:hover, .game-card:focus-visible { transform: translateY(-6px); box-shadow: var(--card-hover-shadow); outline: none; }
+        .game-card::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2); pointer-events: none; }
+        
+        .game-cover-wrapper { width: 100%; aspect-ratio: 4/3; overflow: hidden; background: #f0f0f0; }
+        .game-cover { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .game-card:hover .game-cover { transform: scale(1.05); } 
+        
+        .game-info { padding: 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; background: rgba(255,255,255,0.4); backdrop-filter: blur(10px); }
+        .game-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; letter-spacing: -0.3px; }
+        .game-category { font-size: 12px; font-weight: 600; color: var(--accent-color); }
+        
+        .no-results { text-align: center; color: var(--text-secondary); padding: 40px; grid-column: 1 / -1; background: var(--card-bg); border-radius: var(--radius-lg); font-weight: 500; }
+
+        /* --- 游戏模态弹窗 --- */
+        #gameModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 9999; display: none; flex-direction: column; opacity: 0; transition: opacity 0.4s ease; }
         #gameModal.show { display: flex; opacity: 1; }
-        .modal-header { background: rgba(30, 30, 30, 0.9); backdrop-filter: blur(10px); height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; color: #fff; }
-        .modal-title { font-size: 16px; font-weight: 600; }
-        .btn-close { background: #ff3b30; color: white; border: none; border-radius: 16px; padding: 8px 16px; font-size: 14px; font-weight: bold; cursor: pointer; min-height: 36px; }
-        .btn-close:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+        .modal-header { height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; color: #fff; background: linear-gradient(rgba(0,0,0,0.5), transparent); }
+        .modal-title { font-size: 18px; font-weight: 600; margin: 0; }
+        .btn-close { background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 20px; padding: 8px 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; backdrop-filter: blur(10px); }
+        .btn-close:hover { background: rgba(255,255,255,0.3); }
         
-        /* UX: iframe 加载指示器 */
-        .iframe-loader-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 10px; color: #fff; z-index: -1; }
-        .spinner { width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
+        .iframe-loader-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 16px; color: #fff; z-index: -1; }
+        .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.2); border-top-color: var(--accent-color); border-radius: 50%; animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        
         #modalIframe { flex: 1; width: 100%; border: none; background: transparent; z-index: 1; }
 
-        #loveLock { transition: opacity 0.5s ease, transform 0.5s ease; }
-        .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
-        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+        /* --- 顶级质感锁屏 --- */
+        #loveLock { position: fixed; inset: 0; background: var(--bg-color); z-index: 999999; display: flex; align-items: center; justify-content: center; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* 锁屏背景模糊球 */
+        .lock-bg-blob1 { position: absolute; width: 50vw; height: 50vw; background: #e0c3fc; border-radius: 50%; filter: blur(100px); opacity: 0.5; top: -10%; left: -10%; z-index: -1; }
+        .lock-bg-blob2 { position: absolute; width: 40vw; height: 40vw; background: #8ec5fc; border-radius: 50%; filter: blur(100px); opacity: 0.4; bottom: -10%; right: -10%; z-index: -1; }
+        
+        .lock-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(40px) saturate(200%); border: 1px solid rgba(255,255,255,0.9); border-radius: 32px; padding: 48px 40px; text-align: center; width: 100%; max-width: 320px; box-shadow: 0 30px 60px rgba(0,0,0,0.08); box-sizing: border-box; }
+        .lock-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.1); margin-bottom: 24px; }
+        .lock-card h2 { font-size: 24px; font-weight: 700; margin: 0 0 8px 0; color: var(--text-primary); letter-spacing: -0.5px; }
+        .lock-card p { font-size: 14px; color: var(--text-secondary); margin: 0 0 32px 0; font-weight: 500; }
+        
+        .lock-input-group { position: relative; margin-bottom: 16px; }
+        .lock-input-group input { width: 100%; padding: 16px; border-radius: 16px; border: 2px solid transparent; background: rgba(0,0,0,0.04); text-align: center; font-size: 20px; font-weight: 600; letter-spacing: 4px; outline: none; transition: var(--transition-smooth); box-sizing: border-box; }
+        .lock-input-group input:focus { background: #fff; border-color: var(--accent-color); box-shadow: 0 8px 20px rgba(0,113,227,0.15); }
+        .lock-input-group input::placeholder { letter-spacing: normal; font-weight: 500; font-size: 15px; color: #a1a1a6; }
+        
+        .btn-unlock { width: 100%; padding: 16px; background: var(--text-primary); color: #fff; border: none; border-radius: 16px; font-size: 16px; font-weight: 600; cursor: pointer; transition: var(--transition-smooth); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-unlock:hover { background: #000; transform: translateY(-2px); box-shadow: 0 14px 24px rgba(0,0,0,0.15); }
+        
+        .shake { animation: lockShake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes lockShake { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-6px, 0, 0); } 40%, 60% { transform: translate3d(6px, 0, 0); } }
     </style>
 </head>
 <body>
 
-    <!-- 💖 专属暗号锁屏界面 💖 -->
-    <div id="loveLock" role="dialog" aria-modal="true" aria-labelledby="lockTitle" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-gradient); z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);">
-        <div class="glass-card" style="text-align: center; padding: 40px 30px; max-width: 300px; width: 80%;">
-            <img src="./avatar_couple.jpg" alt="乐乐和布布的合照" width="100" height="100" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid white; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-            <h2 id="lockTitle" class="zcool-font" style="margin: 0 0 10px 0; color: #333;">专属秘密基地</h2>
-            <p style="font-size: 14px; color: #666; margin-bottom: 25px;">请输入乐乐和布布的专属暗号解锁</p>
+    <!-- 🔒 顶级质感锁屏 -->
+    <div id="loveLock" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+        <div class="lock-bg-blob1"></div>
+        <div class="lock-bg-blob2"></div>
+        <div class="lock-card">
+            <img src="./avatar_couple.jpg" alt="乐乐和布布的合照" width="90" height="90">
+            <h2 id="lockTitle">私人快乐屋</h2>
+            <p>请输入专属暗号解锁</p>
             
-            <label for="secretPwd" class="sr-only">输入暗号</label>
-            <input type="password" id="secretPwd" placeholder="输入暗号..." autocomplete="off" style="width: 100%; padding: 14px; border: 2px solid transparent; border-radius: 12px; background: rgba(255,255,255,0.9); text-align: center; font-size: 18px; margin-bottom: 15px; outline: none; box-sizing: border-box; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);" onfocus="this.style.borderColor='#007AFF'" onblur="this.style.borderColor='transparent'">
+            <div class="lock-input-group">
+                <label for="secretPwd" class="sr-only">输入暗号</label>
+                <input type="password" id="secretPwd" placeholder="输入暗号" autocomplete="off">
+            </div>
             
-            <button id="btnUnlock" style="width: 100%; background: #007AFF; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);">进入乐园</button>
-            <p id="pwdError" role="alert" style="color: #ff3b30; font-size: 14px; margin-top: 15px; display: none; margin-bottom: 0; font-weight: bold;">暗号不对哦，再想想！</p>
+            <button id="btnUnlock" class="btn-unlock">进入空间</button>
+            <p id="pwdError" role="alert" style="color: #ff3b30; font-size: 13px; margin-top: 16px; display: none; margin-bottom: 0; font-weight: 600;">暗号不正确</p>
         </div>
     </div>
 
-    <!-- 语义化结构重构 -->
-    <header class="header">
-        <div class="top-logo">
-            <img src="./logo_lele.jpg" alt="Lele Logo" width="45" height="45" class="logo-img">
-            <span class="logo-text zcool-font" aria-hidden="true">lele</span>
-        </div>
-        <img src="./avatar_couple.jpg" alt="乐乐和布布" width="140" height="140" class="couple-avatar">
-        <div class="glass-card timer-box" aria-live="polite">
-            我们在一起已经<br>
-            <span id="days" class="timer-number">0</span> 天
-            <span id="hours" class="timer-number">0</span> 时
-            <span id="minutes" class="timer-number">0</span> 分
-            <span id="seconds" class="timer-number">0</span> 秒啦！
-        </div>
-    </header>
+    <main class="layout-container">
+        
+        <!-- 🍱 Bento Box 顶部区域 -->
+        <section class="bento-grid" aria-label="核心信息区">
+            
+            <!-- 左侧列：资料 + 计时器 -->
+            <div class="bento-col">
+                <div class="glass-panel welcome-card">
+                    <img src="./avatar_couple.jpg" alt="乐乐和布布" width="80" height="80" class="welcome-avatar">
+                    <div class="welcome-text">
+                        <h1>乐乐 & 布布</h1>
+                        <p>欢迎来到我们的专属小宇宙</p>
+                    </div>
+                </div>
+                
+                <div class="glass-panel timer-card" aria-live="polite">
+                    <div class="timer-title">相恋时光</div>
+                    <div class="timer-grid">
+                        <div class="timer-item"><span id="days" class="timer-val">0</span><span class="timer-lbl">天</span></div>
+                        <div class="timer-item"><span id="hours" class="timer-val">0</span><span class="timer-lbl">时</span></div>
+                        <div class="timer-item"><span id="minutes" class="timer-val">0</span><span class="timer-lbl">分</span></div>
+                        <div class="timer-item"><span id="seconds" class="timer-val">0</span><span class="timer-lbl">秒</span></div>
+                    </div>
+                </div>
+            </div>
 
-    <main class="content-container">
-        <section class="glass-card model-container zcool-font" aria-labelledby="model-title">
-            <h2 id="model-title" class="sr-only">3D 秘密基地</h2>
-            <div style="font-size: 1.3rem; margin-bottom: 15px;" aria-hidden="true">✨ 属于我们的 3D 秘密基地 ✨</div>
-            <iframe src="https://xi4u.pages.dev/" title="3D 秘密基地交互展示" class="model-iframe" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
-            <div class="model-hint" aria-hidden="true">👆 试试用手指滑动探索它</div>
+            <!-- 右侧列：3D 互动区 -->
+            <div class="glass-panel model-card" aria-label="3D 秘密基地">
+                <div class="card-badge">✨ 3D 互动小岛</div>
+                <iframe src="https://xi4u.pages.dev/" title="3D 秘密基地交互展示" class="model-iframe" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+            </div>
+            
         </section>
 
-        <section class="chat-container" aria-label="对话记录">
-            <div class="msg left">
-                <img src="./avatar_lele.png" alt="乐乐" width="40" height="40" class="avatar" loading="lazy">
-                <div class="bubble">布布！快看上面那个 3D 小世界好可爱哦~~ 🏝️</div>
-            </div>
-            <div class="msg right">
-                <div class="bubble">对呀，可以360度旋转呢！专门为你建的专属小宇宙 😎</div>
-                <img src="./avatar_bubu.png" alt="布布" width="40" height="40" class="avatar" loading="lazy">
-            </div>
-            <div class="msg left">
-                <img src="./avatar_lele.png" alt="乐乐" width="40" height="40" class="avatar" loading="lazy">
-                <div class="bubble">哇哦，太高级了吧！下面是不是还有好玩的？</div>
-            </div>
-            <div class="msg right">
-                <div class="bubble">往下看，我还给你准备了一个超好玩的游戏中心 🎮</div>
-                <img src="./avatar_bubu.png" alt="布布" width="40" height="40" class="avatar" loading="lazy">
+        <!-- 💬 聊天互动区 -->
+        <section class="glass-panel chat-card" aria-label="对话互动">
+            <h2 class="chat-title">实时动态</h2>
+            <div class="msg-list">
+                <div class="msg left">
+                    <img src="./avatar_lele.png" alt="乐乐" width="36" height="36" class="chat-avatar" loading="lazy">
+                    <div class="bubble">布布！快看上面的 3D 小世界，质感绝了！🏝️</div>
+                </div>
+                <div class="msg right">
+                    <div class="bubble">对呀，专门为你重构的顶级科技风！😎</div>
+                    <img src="./avatar_bubu.png" alt="布布" width="36" height="36" class="chat-avatar" loading="lazy">
+                </div>
+                <div class="msg left">
+                    <img src="./avatar_lele.png" alt="乐乐" width="36" height="36" class="chat-avatar" loading="lazy">
+                    <div class="bubble">太高级了吧！那游戏区呢？</div>
+                </div>
+                <div class="msg right">
+                    <div class="bubble">往下滑，感受一下 App Store 级别的体验 🎮</div>
+                    <img src="./avatar_bubu.png" alt="布布" width="36" height="36" class="chat-avatar" loading="lazy">
+                </div>
             </div>
         </section>
 
-        <section class="app-store-container" aria-labelledby="store-title">
-            <h2 id="store-title" class="store-title">游戏</h2>
-            <p class="store-subtitle">乐乐专属 • 精选高分潮玩神作</p>
+        <!-- 🎮 游戏中心区 -->
+        <section class="store-section" aria-labelledby="store-title">
+            <div class="store-header">
+                <h2 id="store-title">游戏工坊</h2>
+            </div>
 
-            <nav class="store-sticky-header" aria-label="游戏分类与搜索">
+            <div class="controls-row">
                 <div class="search-bar">
                     <label for="searchInput" class="sr-only">搜索游戏</label>
                     <input type="text" id="searchInput" placeholder="搜索游戏 (如: 黄金矿工)" autocomplete="off">
-                    <button id="btnRandom" class="btn-random" aria-label="随机玩一款游戏">🎲 随便玩</button>
                 </div>
-                <div class="category-pills" id="categoryContainer" role="tablist" aria-label="游戏分类"></div>
-            </nav>
+                <button id="btnRandom" class="btn-random" aria-label="随机游玩">🎲 随便玩</button>
+            </div>
 
-            <h3 class="section-header">今日精选</h3>
-            <div class="featured-scroll" id="featuredContainer" role="list" aria-label="精选游戏列表"></div>
+            <div class="category-pills" id="categoryContainer" role="tablist" aria-label="游戏分类"></div>
 
-            <h3 class="section-header">经典必玩</h3>
-            <div class="games-grid" id="gamesGrid" role="list" aria-label="全部游戏列表" aria-live="polite"></div>
+            <div style="margin-top: 32px;">
+                <h3 class="section-title">所有游戏</h3>
+                <div class="games-grid" id="gamesGrid" role="list" aria-label="游戏列表" aria-live="polite"></div>
+            </div>
         </section>
     </main>
 
-    <!-- 游戏弹窗 -->
+    <!-- 🕹️ 游戏沉浸弹窗 -->
     <div id="gameModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-header">
-            <h2 class="modal-title" id="modalTitle">正在加载...</h2>
-            <button id="btnCloseModal" class="btn-close" aria-label="关闭游戏弹窗">关闭退出</button>
+            <h2 class="modal-title" id="modalTitle">Loading...</h2>
+            <button id="btnCloseModal" class="btn-close" aria-label="关闭游戏弹窗">退出游戏</button>
         </div>
         <div class="iframe-loader-container" id="iframeLoader">
             <div class="spinner"></div>
-            <span style="font-size: 14px;">游戏加载中...</span>
+            <span style="font-size: 15px; font-weight: 500;">引擎加载中...</span>
         </div>
-        <!-- 安全性优化：沙箱权限最小化配置 -->
         <iframe id="modalIframe" src="" title="游戏运行窗口" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>
     </div>
 
     <script>
-        // --- 全局配置与数据管理 ---
+        // --- 核心配置 ---
         const APP_CONFIG = {
             startDate: '2019-12-02T01:00:00',
-            // 安全性：通过简单的 Base64 防止明文硬编码被轻易肉眼识别
             lockHash: 'MTIwMg==', 
             baseURL: 'https://pangggu.github.io/games/'
         };
 
+        // --- 游戏数据 (保持原样) ---
         const RAW_GAMES = [
             { id: "bnb", name: "泡泡堂", category: "双人", url: "https://h3aajdlti6teq.kimi.site", featured: true },
             { id: "goldminer", name: "黄金矿工", category: "休闲", url: "https://pangggu.github.io/Gold-Mining-Game-main/index.html", img: "./huangjinkuanggong.jpg", featured: true },
@@ -258,12 +338,12 @@
             ...game,
             url: game.url || `${APP_CONFIG.baseURL}${game.id}/index.html`,
             img: game.img || `./${game.id}.jpg`,
-            fallbackImg: `https://picsum.photos/seed/${game.id}/600/400`
+            fallbackImg: `https://picsum.photos/seed/${game.id}/800/600`
         }));
 
         let state = { category: '全部', search: '' };
 
-        // --- DOM 元素引用 ---
+        // --- DOM ---
         const DOM = {
             lock: document.getElementById('loveLock'),
             pwdInput: document.getElementById('secretPwd'),
@@ -271,7 +351,6 @@
             pwdError: document.getElementById('pwdError'),
             timer: { d: document.getElementById('days'), h: document.getElementById('hours'), m: document.getElementById('minutes'), s: document.getElementById('seconds') },
             grid: document.getElementById('gamesGrid'),
-            featured: document.getElementById('featuredContainer'),
             categories: document.getElementById('categoryContainer'),
             search: document.getElementById('searchInput'),
             btnRandom: document.getElementById('btnRandom'),
@@ -282,7 +361,7 @@
             iframeLoader: document.getElementById('iframeLoader')
         };
 
-        // --- 初始化与生命周期 ---
+        // --- 初始化 ---
         document.addEventListener('DOMContentLoaded', () => {
             initSecurityLock();
             initTimer();
@@ -290,12 +369,12 @@
             bindEvents();
         });
 
-        // --- 1. 安全与锁屏逻辑 ---
         function initSecurityLock() {
             if (localStorage.getItem('lele_unlocked') === 'true') {
                 DOM.lock.style.display = 'none';
             } else {
                 document.body.style.overflow = 'hidden'; 
+                setTimeout(() => DOM.pwdInput.focus(), 100);
             }
         }
 
@@ -304,19 +383,20 @@
             if (pwdInputBase64 === APP_CONFIG.lockHash) {
                 localStorage.setItem('lele_unlocked', 'true');
                 DOM.lock.style.opacity = '0';
-                DOM.lock.style.transform = 'scale(1.1)';
+                DOM.lock.style.transform = 'scale(1.05)';
                 document.body.style.overflow = 'auto';
-                setTimeout(() => DOM.lock.style.display = 'none', 500);
+                setTimeout(() => DOM.lock.style.display = 'none', 600);
             } else {
                 DOM.pwdError.style.display = 'block';
-                DOM.pwdInput.value = ''; // 失败清空输入框，提升重试 UX
+                DOM.pwdInput.value = ''; 
                 DOM.pwdInput.focus();
-                DOM.pwdError.classList.add('shake');
-                setTimeout(() => DOM.pwdError.classList.remove('shake'), 500);
+                const lockCard = document.querySelector('.lock-card');
+                lockCard.classList.remove('shake');
+                void lockCard.offsetWidth; // 触发重绘
+                lockCard.classList.add('shake');
             }
         }
 
-        // --- 2. 计时器逻辑 ---
         function initTimer() {
             const startMs = new Date(APP_CONFIG.startDate).getTime();
             const update = () => {
@@ -330,38 +410,27 @@
             update();
         }
 
-        // --- 3. 游戏商城渲染逻辑 ---
-        function initStore() {
-            renderFeatured();
-            renderCategories();
-            renderGrid();
-        }
-
-        function createGameCardHTML(game, isFeatured = false) {
-            const wrapperClass = isFeatured ? 'featured-card' : 'game-card';
-            const imgClass = isFeatured ? '' : 'class="game-cover"';
-            const imgContainer = isFeatured ? '' : 'class="game-cover-wrapper"';
-            
-            const infoHTML = isFeatured 
-                ? `<div class="featured-info"><h3 class="featured-title">${game.name}</h3><div class="featured-tag">${game.category}</div></div>`
-                : `<div class="game-info"><div class="game-name">${game.name}</div><div class="game-meta"><span class="game-category">${game.category}</span></div></div>`;
-
+        function createGameCardHTML(game) {
             return `
-                <button class="${wrapperClass}" data-url="${game.url}" data-title="${game.name}" role="${isFeatured ? 'listitem' : 'button'}" tabindex="0" aria-label="游玩 ${game.name}">
-                    <div ${imgContainer}>
-                        <img src="${game.img}" ${imgClass} onerror="this.src='${game.fallbackImg}'" loading="lazy" decoding="async" alt="${game.name} 封面">
+                <button class="game-card" data-url="${game.url}" data-title="${game.name}" role="listitem" tabindex="0" aria-label="游玩 ${game.name}">
+                    <div class="game-cover-wrapper">
+                        <img src="${game.img}" class="game-cover" onerror="this.src='${game.fallbackImg}'" loading="lazy" decoding="async" alt="${game.name}">
                     </div>
-                    ${infoHTML}
+                    <div class="game-info">
+                        <div class="game-name">${game.name}</div>
+                        <div class="game-category">${game.category}</div>
+                    </div>
                 </button>
             `;
         }
 
-        function renderFeatured() {
-            const featuredGames = GAMES_DATA.filter(g => g.featured);
-            DOM.featured.innerHTML = featuredGames.map(g => createGameCardHTML(g, true)).join('');
+        function initStore() {
+            renderCategories();
+            renderGrid();
         }
 
         function renderGrid() {
+            // 合并“精选”到全部网格中，简化层级，更显高级扁平
             const filtered = GAMES_DATA.filter(game => {
                 const matchCat = state.category === '全部' || game.category === state.category;
                 const matchSearch = game.name.toLowerCase().includes(state.search.toLowerCase());
@@ -369,10 +438,10 @@
             });
 
             if (filtered.length === 0) {
-                DOM.grid.innerHTML = `<div class="no-results" role="status">未找到对应的小游戏 🥺</div>`;
+                DOM.grid.innerHTML = `<div class="no-results" role="status">暂无匹配的游戏结果 🥺</div>`;
                 return;
             }
-            DOM.grid.innerHTML = filtered.map(g => createGameCardHTML(g, false)).join('');
+            DOM.grid.innerHTML = filtered.map(g => createGameCardHTML(g)).join('');
         }
 
         function renderCategories() {
@@ -384,33 +453,31 @@
             `).join('');
         }
 
-        // --- 4. 模态窗与事件绑定 ---
         function openGameModal(url, title) {
             DOM.modalTitle.textContent = title;
-            DOM.iframeLoader.style.display = 'flex'; // 显示加载指示器
+            DOM.iframeLoader.style.display = 'flex'; 
             DOM.iframe.src = url;
             DOM.modal.classList.add('show');
             document.body.style.overflow = 'hidden';
-            DOM.btnCloseModal.focus(); // A11y 焦点管理
+            DOM.btnCloseModal.focus(); 
         }
 
         function closeGameModal() {
             DOM.modal.classList.remove('show');
             document.body.style.overflow = 'auto';
-            setTimeout(() => { DOM.iframe.src = ''; }, 300);
+            setTimeout(() => { DOM.iframe.src = ''; }, 400);
         }
 
         function bindEvents() {
-            // 锁屏事件
             DOM.btnUnlock.addEventListener('click', handleUnlock);
             DOM.pwdInput.addEventListener('keypress', e => { if (e.key === 'Enter') handleUnlock(); });
 
-            // 搜索与分类事件
             DOM.search.addEventListener('input', e => { state.search = e.target.value.trim(); renderGrid(); });
             DOM.btnRandom.addEventListener('click', () => {
                 const randomGame = GAMES_DATA[Math.floor(Math.random() * GAMES_DATA.length)];
                 openGameModal(randomGame.url, randomGame.name);
             });
+            
             DOM.categories.addEventListener('click', e => {
                 const btn = e.target.closest('.pill');
                 if (!btn) return;
@@ -419,19 +486,14 @@
                 renderGrid();
             });
 
-            // 游戏卡片点击事件 (事件委托)
-            const handleCardClick = e => {
-                const card = e.target.closest('button[data-url]');
+            DOM.grid.addEventListener('click', e => {
+                const card = e.target.closest('button.game-card');
                 if (card) openGameModal(card.dataset.url, card.dataset.title);
-            };
-            DOM.featured.addEventListener('click', handleCardClick);
-            DOM.grid.addEventListener('click', handleCardClick);
+            });
 
-            // 模态窗关闭与加载事件
             DOM.btnCloseModal.addEventListener('click', closeGameModal);
             DOM.iframe.addEventListener('load', () => { DOM.iframeLoader.style.display = 'none'; });
             
-            // 全局 Esc 键关闭弹窗
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape' && DOM.modal.classList.contains('show')) closeGameModal();
             });
