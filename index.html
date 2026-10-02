@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>乐乐 & 卢卢的专属空间</title>
+    <title>乐乐 & 布布的专属空间</title>
     <!-- 引入可爱漫画风字体 -->
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
 
@@ -235,7 +235,7 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // --- 2. 游戏库数据（已移除糖果消消乐，加入黄金矿工和象棋） ---
+        // --- 2. 游戏库数据（已移除糖果消消乐，加入黄金矿工，并更新了象棋链接） ---
         const baseURL = "https://pangggu.github.io/games/";
         
         const rawGames = [
@@ -243,7 +243,8 @@
             { id: "goldminer", name: "黄金矿工", category: "休闲", url: "https://pangggu.github.io/Gold-Mining-Game-main/index.html", img: "./huangjinkuanggong.jpg", featured: true },
             { id: "runner_temple", name: "神庙逃亡", category: "跑酷", url: "https://pangggu.github.io/Runner_Temple/", featured: true },
             { id: "fireboy", name: "森林冰火人", category: "双人", url: "https://pangggu.github.io/FireboyAndWatergirl/game.html", featured: true },
-            { id: "xiangqi", name: "中国象棋", category: "棋牌", url: "https://pangggu.github.io/xiangqi/", img: "./xiangqi.jpg" },
+            // 中国象棋的链接已经更新如下：
+            { id: "xiangqi", name: "中国象棋", category: "棋牌", url: "https://yutils.github.io/xiangqi", img: "./xiangqi.jpg" },
             { id: "2048", name: "2048经典版", category: "益智", featured: true },
             { id: "russianblock", name: "俄罗斯方块", category: "益智" },
             { id: "fctank", name: "FC坦克大战", category: "射击", featured: true },
