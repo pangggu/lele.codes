@@ -170,7 +170,7 @@
 
         <div class="app-store-container">
             <h1 class="store-title">游戏</h1>
-            <p class="store-subtitle">乐乐专属 • 精选高分像素神作</p>
+            <p class="store-subtitle">乐乐专属 • 精选高分潮玩神作</p>
 
             <div class="store-sticky-header">
                 <div class="search-bar">
@@ -202,26 +202,24 @@
         if(localStorage.getItem('lele_unlocked') === 'true') {
             document.getElementById('loveLock').style.display = 'none';
         } else {
-            document.body.style.overflow = 'hidden'; // 锁定底层滑动
+            document.body.style.overflow = 'hidden'; 
         }
 
         function checkPwd() {
-            // 👇 这里是你们的专属暗号，可以修改为你想要的任何字母或数字，目前是 1202
+            // 密码为 1202
             if(document.getElementById('secretPwd').value === '1202') {
                 localStorage.setItem('lele_unlocked', 'true');
                 document.getElementById('loveLock').style.opacity = '0';
                 document.getElementById('loveLock').style.transform = 'scale(1.1)';
-                document.body.style.overflow = 'auto'; // 恢复底层滑动
+                document.body.style.overflow = 'auto';
                 setTimeout(() => { document.getElementById('loveLock').style.display = 'none'; }, 500);
             } else {
                 const err = document.getElementById('pwdError');
                 err.style.display = 'block';
-                err.classList.add('shake'); // 简单的错误反馈动画
+                err.classList.add('shake');
                 setTimeout(() => err.classList.remove('shake'), 500);
             }
         }
-
-        // 支持敲击回车键解锁
         document.getElementById('secretPwd').addEventListener('keypress', function(e) {
             if(e.key === 'Enter') checkPwd();
         });
@@ -240,7 +238,7 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // --- 2. 游戏库数据（已含 19 款神作） ---
+        // --- 2. 游戏库数据（已移除斗地主，并修正了特殊图片路径） ---
         const baseURL = "https://pangggu.github.io/games/";
         
         const rawGames = [
@@ -252,7 +250,8 @@
             { id: "fctank", name: "FC坦克大战", category: "射击", featured: true },
             { id: "pacman", name: "经典吃豆人", category: "动作" },
             { id: "fruit", name: "水果忍者", category: "休闲" },
-            { id: "flappybird", name: "像素鸟", category: "休闲" },
+            // 注意这里：精准匹配了你在根目录里多了一个后缀的文件名
+            { id: "flappybird", name: "像素鸟", category: "休闲", img: "./flappybird.jpg.jpg" },
             { id: "dinosaur", name: "暴走小恐龙", category: "休闲" },
             { id: "jump", name: "极限跳一跳", category: "休闲" },
             { id: "downfloor", name: "是男人就下100层", category: "动作" },
@@ -261,14 +260,16 @@
             { id: "plane", name: "雷霆战机", category: "飞行" },
             { id: "shenjingmao", name: "围住神经猫", category: "益智" },
             { id: "candy", name: "糖果消消乐", category: "益智" },
-            { id: "doudizhu", name: "欢乐斗地主", category: "棋牌" },
+            // 欢乐斗地主已删除
             { id: "p2ball", name: "双人弹球", category: "双人" }
         ];
 
+        // 核心修改：图片路径直接指向当前根目录 ./，不再找 covers 文件夹
         const gamesData = rawGames.map(game => ({
             ...game,
             url: game.url || `${baseURL}${game.id}/index.html`,
-            img: `./covers/${game.id}.jpg`,
+            // 如果定义了特殊图片路径(如 flappybird)就用特殊的，否则统一加 .jpg
+            img: game.img || `./${game.id}.jpg`,
             fallbackImg: `https://picsum.photos/seed/${game.id}/600/400`
         }));
 
