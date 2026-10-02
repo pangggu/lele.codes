@@ -24,7 +24,7 @@
             margin: 0; padding: 0;
             background: var(--bg-gradient);
             background-attachment: fixed;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* 全局使用苹果系统级字体 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: var(--text-color);
             overflow-x: hidden;
         }
@@ -114,7 +114,7 @@
 
         .category-pills {
             display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
         }
         .category-pills::-webkit-scrollbar { display: none; }
         .pill {
@@ -152,10 +152,8 @@
         .games-grid {
             display: grid;
             gap: 15px;
-            /* 手机默认一行2个 */
             grid-template-columns: repeat(2, 1fr); 
         }
-        /* 桌面端一行4-5个 */
         @media (min-width: 600px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
 
         .game-card {
@@ -170,7 +168,7 @@
         }
         .game-cover-wrapper { width: 100%; height: 110px; overflow: hidden; }
         .game-cover { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .game-card:hover .game-cover { transform: scale(1.03); } /* 封面图片微缩放 */
+        .game-card:hover .game-cover { transform: scale(1.03); } 
         
         .game-info { padding: 10px 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .game-name { font-size: 14px; font-weight: 700; color: #1d1d1f; line-height: 1.2; margin-bottom: 6px; }
@@ -242,7 +240,7 @@
                 <div class="bubble">哇哦，太高级了吧！下面是不是还有好玩的？</div>
             </div>
             <div class="msg right">
-                <div class="bubble">往下看，我还给你准备了一个专属游戏中心 🎮</div>
+                <div class="bubble">往下看，我还给你准备了一个超好玩的游戏中心 🎮</div>
                 <img src="./avatar_bubu.png" alt="布布" class="avatar">
             </div>
         </div>
@@ -250,12 +248,12 @@
         <!-- 🌟 升级版 App Store 游戏大厅 🌟 -->
         <div class="app-store-container">
             <h1 class="store-title">游戏</h1>
-            <p class="store-subtitle">乐乐专属 • 精选高分小游戏</p>
+            <p class="store-subtitle">乐乐专属 • 精选高分神作</p>
 
             <!-- 吸顶工具栏 -->
             <div class="store-sticky-header">
                 <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="搜索游戏 (如: 冒险岛)">
+                    <input type="text" id="searchInput" placeholder="搜索游戏 (如: 吃豆人)">
                     <button class="btn-random" onclick="playRandom()">🎲 随便玩</button>
                 </div>
                 <div class="category-pills" id="categoryContainer">
@@ -270,7 +268,7 @@
             </div>
 
             <!-- 全部游戏网格 -->
-            <div class="section-header">全部游戏</div>
+            <div class="section-header">经典必玩</div>
             <div class="games-grid" id="gamesGrid">
                 <!-- JS 生成响应式网格 -->
             </div>
@@ -284,7 +282,6 @@
             <span class="modal-title" id="modalTitle">正在加载...</span>
             <button class="btn-close" onclick="closeGame()">关闭退出</button>
         </div>
-        <!-- 仅在点击时分配 src，关闭时清空释放内存。附加严格的安全策略 -->
         <iframe id="modalIframe" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
     </div>
 
@@ -303,43 +300,28 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // --- 2. 游戏库数据配置 ---
-        // 自动翻译映射英文目录为合理的中文名及分类
+        // --- 2. 游戏库数据配置（已精简保留最经典的 17 款神作） ---
         const baseURL = "https://pangggu.github.io/games/";
         const rawGames = [
             { id: "fireboy", name: "森林冰火人", category: "双人", url: "https://pangggu.github.io/FireboyAndWatergirl/game.html", featured: true },
             { id: "2048", name: "2048经典版", category: "益智", featured: true },
-            { id: "arpg", name: "冒险岛 ARPG", category: "动作", featured: true },
-            { id: "dinosaur", name: "暴走小恐龙", category: "休闲" },
-            { id: "pacman", name: "经典吃豆人", category: "动作" },
-            { id: "flappybird", name: "像素鸟", category: "休闲" },
-            { id: "bike", name: "特技单车", category: "体育" },
-            { id: "plane", name: "雷霆战机", category: "飞行" },
-            { id: "candy", name: "糖果消消乐", category: "益智", featured: true },
-            { id: "mota", name: "魔塔冒险", category: "策略" },
-            { id: "allalive", name: "全民生存", category: "动作" },
-            { id: "attackonball", name: "进击的球球", category: "休闲" },
-            { id: "blindmoon", name: "盲月探险", category: "冒险" },
-            { id: "blockdown", name: "方块下落", category: "益智" },
-            { id: "breaklovers", name: "拆散情侣", category: "搞笑" },
-            { id: "catapult", name: "疯狂投石车", category: "策略" },
-            { id: "doudizhu", name: "欢乐斗地主", category: "棋牌" },
-            { id: "downfloor", name: "下一百层", category: "动作" },
-            { id: "eatball", name: "大球吃小球", category: "休闲" },
+            { id: "russianblock", name: "俄罗斯方块", category: "益智", featured: true },
             { id: "fctank", name: "FC坦克大战", category: "射击", featured: true },
+            { id: "pacman", name: "经典吃豆人", category: "动作" },
             { id: "fruit", name: "水果忍者", category: "休闲" },
-            { id: "hearthstone", name: "炉石(简版)", category: "策略" },
+            { id: "flappybird", name: "像素鸟", category: "休闲" },
+            { id: "dinosaur", name: "暴走小恐龙", category: "休闲" },
             { id: "jump", name: "极限跳一跳", category: "休闲" },
-            { id: "knifehit3", name: "飞刀大师", category: "动作" },
-            { id: "memory", name: "记忆翻牌", category: "益智" },
-            { id: "p2ball", name: "双人弹球", category: "双人" },
-            { id: "prize", name: "抓娃娃机", category: "休闲" },
-            { id: "rhythm", name: "节奏大师", category: "音乐" },
-            { id: "russianblock", name: "俄罗斯方块", category: "益智" },
-            { id: "shenjingmao", name: "围住神经猫", category: "益智" }
+            { id: "downfloor", name: "是男人就下100层", category: "动作" },
+            { id: "mota", name: "魔塔冒险", category: "策略" },
+            { id: "arpg", name: "冒险岛 ARPG", category: "动作" },
+            { id: "plane", name: "雷霆战机", category: "飞行" },
+            { id: "shenjingmao", name: "围住神经猫", category: "益智" },
+            { id: "candy", name: "糖果消消乐", category: "益智" },
+            { id: "doudizhu", name: "欢乐斗地主", category: "棋牌" },
+            { id: "p2ball", name: "双人弹球", category: "双人" }
         ];
 
-        // 补全 URL 和 封面图 (利用 picsum 伪随机图床，相同 id 生成固定图片)
         const gamesData = rawGames.map(game => ({
             ...game,
             url: game.url || `${baseURL}${game.id}/index.html`,
@@ -354,7 +336,6 @@
         const featuredContainer = document.getElementById('featuredContainer');
         const categoryContainer = document.getElementById('categoryContainer');
         
-        // 生成横向精选
         function renderFeatured() {
             const featuredGames = gamesData.filter(g => g.featured);
             featuredContainer.innerHTML = featuredGames.map(game => `
@@ -368,7 +349,6 @@
             `).join('');
         }
 
-        // 生成网格
         function renderGrid() {
             const filtered = gamesData.filter(game => {
                 const matchCat = currentCategory === '全部' || game.category === currentCategory;
@@ -396,7 +376,6 @@
             `).join('');
         }
 
-        // 生成分类胶囊
         function renderCategories() {
             const categories = ['全部', ...new Set(gamesData.map(g => g.category))];
             categoryContainer.innerHTML = categories.map(cat => `
@@ -411,13 +390,11 @@
             renderGrid();
         }
 
-        // 搜索功能监听
         document.getElementById('searchInput').addEventListener('input', (e) => {
             currentSearch = e.target.value;
             renderGrid();
         });
 
-        // 随便玩逻辑
         window.playRandom = function() {
             const randomGame = gamesData[Math.floor(Math.random() * gamesData.length)];
             openGame(randomGame.url, randomGame.name);
@@ -430,20 +407,17 @@
 
         window.openGame = function(url, title) {
             modalTitle.innerText = title;
-            // 点击时才分配 src，避免首页资源拥堵
             iframe.src = url;
             modal.classList.add('show');
-            document.body.style.overflow = 'hidden'; // 阻止底层背景滚动
+            document.body.style.overflow = 'hidden'; 
         }
 
         window.closeGame = function() {
             modal.classList.remove('show');
             document.body.style.overflow = 'auto';
-            // 核心：关闭时清空 iframe，释放内存和声音
             setTimeout(() => { iframe.src = ''; }, 300);
         }
 
-        // 初始化渲染
         renderFeatured();
         renderCategories();
         renderGrid();
