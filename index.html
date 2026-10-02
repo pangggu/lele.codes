@@ -9,12 +9,10 @@
 
     <style>
         :root {
-            /* 极光渐变背景色 */
             --bg-gradient: linear-gradient(135deg, #E0C3FC 0%, #8EC5FC 100%);
             --glass-bg: rgba(255, 255, 255, 0.4);
             --glass-border: rgba(255, 255, 255, 0.6);
             --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-            
             --lele-bubble: #007AFF;
             --bubu-bubble: rgba(255, 255, 255, 0.7);
             --text-color: #333;
@@ -22,27 +20,18 @@
         
         body, html {
             margin: 0; padding: 0;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
+            background: var(--bg-gradient); background-attachment: fixed;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: var(--text-color);
-            overflow-x: hidden;
+            color: var(--text-color); overflow-x: hidden;
         }
 
         .zcool-font { font-family: 'ZCOOL KuaiLe', cursive; }
 
-        /* 通用毛玻璃卡片样式 */
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: var(--glass-shadow);
-            padding: 20px;
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border); border-radius: 24px; box-shadow: var(--glass-shadow); padding: 20px;
         }
 
-        /* 顶部装饰区域 */
         .top-logo { position: absolute; top: 20px; left: 20px; display: flex; align-items: center; gap: 10px; z-index: 10; }
         .logo-img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .logo-text { font-size: 1.6rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.1); letter-spacing: 2px; }
@@ -53,12 +42,10 @@
 
         .content-container { max-width: 600px; margin: 0 auto; padding: 0 20px 40px; display: flex; flex-direction: column; gap: 30px; }
 
-        /* 3D 模型内嵌舱 */
         .model-container { width: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
         .model-iframe { width: 100%; height: 400px; border: none; border-radius: 16px; background-color: transparent; }
         .model-hint { margin-top: 12px; font-size: 0.9rem; color: #666; background: rgba(255,255,255,0.5); padding: 6px 16px; border-radius: 20px; }
 
-        /* 微信/iMessage 气泡聊天区域 */
         .chat-container { display: flex; flex-direction: column; gap: 15px; font-family: 'ZCOOL KuaiLe', cursive; }
         .msg { display: flex; align-items: flex-end; max-width: 100%; }
         .msg.left { align-self: flex-start; }
@@ -68,105 +55,38 @@
         .msg.left .bubble { background-color: var(--bubu-bubble); border-bottom-left-radius: 4px; color: #333; }
         .msg.right .bubble { background-color: var(--lele-bubble); border-bottom-right-radius: 4px; color: white; }
 
-
-        /* =========================================
-           🌟 核心升级：App Store 风格游戏大厅 🌟 
-           ========================================= */
-        .app-store-container {
-            background-color: #f5f5f7;
-            border-radius: 24px;
-            padding: 20px 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
+        .app-store-container { background-color: #f5f5f7; border-radius: 24px; padding: 20px 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
         .store-title { font-size: 28px; font-weight: 800; color: #1d1d1f; margin: 0; }
         .store-subtitle { font-size: 14px; color: #86868b; margin-top: 4px; margin-bottom: 15px; }
 
-        /* 吸顶功能区：搜索 + 胶囊 + 随机 */
-        .store-sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background: rgba(245, 245, 247, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
+        .store-sticky-header { position: sticky; top: 0; z-index: 10; background: rgba(245, 245, 247, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 12px; }
         .search-bar { display: flex; gap: 10px; }
-        .search-bar input {
-            flex: 1; padding: 10px 16px; border-radius: 12px;
-            border: none; background: #e8e8ed; font-size: 15px; outline: none;
-            font-family: inherit;
-        }
+        .search-bar input { flex: 1; padding: 10px 16px; border-radius: 12px; border: none; background: #e8e8ed; font-size: 15px; outline: none; font-family: inherit; }
         .search-bar input:focus { box-shadow: 0 0 0 2px #007AFF; background: #fff; }
-        .btn-random {
-            background: #007AFF; color: #fff; border: none; border-radius: 12px;
-            padding: 0 16px; font-weight: 600; cursor: pointer; transition: 0.2s;
-        }
+        .btn-random { background: #007AFF; color: #fff; border: none; border-radius: 12px; padding: 0 16px; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .btn-random:active { transform: scale(0.95); opacity: 0.8; }
 
-        .category-pills {
-            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px;
-            scrollbar-width: none;
-        }
+        .category-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
         .category-pills::-webkit-scrollbar { display: none; }
-        .pill {
-            background: #fff; color: #1d1d1f; border-radius: 20px; padding: 6px 14px;
-            font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.04); border: 1px solid transparent;
-            transition: 0.2s;
-        }
+        .pill { background: #fff; color: #1d1d1f; border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.04); border: 1px solid transparent; transition: 0.2s; }
         .pill.active { background: #007AFF; color: #fff; }
 
-        /* 今日精选 (横向滚动) */
         .section-header { font-size: 18px; font-weight: 700; color: #1d1d1f; margin: 20px 0 12px; }
-        .featured-scroll {
-            display: flex; gap: 15px; overflow-x: auto; scroll-snap-type: x mandatory;
-            padding-bottom: 10px; scrollbar-width: none;
-        }
+        .featured-scroll { display: flex; gap: 15px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; scrollbar-width: none; }
         .featured-scroll::-webkit-scrollbar { display: none; }
-        .featured-card {
-            min-width: 260px; height: 160px; border-radius: 20px;
-            background-color: #fff; overflow: hidden; position: relative;
-            scroll-snap-align: start; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            transition: transform 0.3s;
-        }
+        .featured-card { min-width: 260px; height: 160px; border-radius: 20px; background-color: #fff; overflow: hidden; position: relative; scroll-snap-align: start; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.06); transition: transform 0.3s; }
         .featured-card:hover { transform: translateY(-3px); }
         .featured-card img { width: 100%; height: 100%; object-fit: cover; }
-        .featured-info {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 15px; background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: #fff;
-        }
+        .featured-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: #fff; }
         .featured-title { font-size: 18px; font-weight: 700; margin: 0; }
         .featured-tag { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 4px; }
 
-        /* 全部游戏 (响应式网格) */
-        .games-grid {
-            display: grid;
-            gap: 15px;
-            grid-template-columns: repeat(2, 1fr); 
-        }
+        .games-grid { display: grid; gap: 15px; grid-template-columns: repeat(2, 1fr); }
         @media (min-width: 600px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
 
-        .game-card {
-            background: #fff; border-radius: 16px; overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.04); cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
-            display: flex; flex-direction: column;
-        }
-        .game-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-        }
-        .game-cover-wrapper { width: 100%; height: 110px; overflow: hidden; }
+        .game-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.04); cursor: pointer; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s; display: flex; flex-direction: column; }
+        .game-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+        .game-cover-wrapper { width: 100%; height: 110px; overflow: hidden; background: #e0e0e0; }
         .game-cover { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .game-card:hover .game-cover { transform: scale(1.03); } 
         
@@ -177,31 +97,34 @@
         
         .no-results { text-align: center; color: #86868b; padding: 30px; grid-column: 1 / -1; }
 
-        /* =========================================
-           🎮 全屏游戏模态窗 (懒加载 iframe) 
-           ========================================= */
-        #gameModal {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: #000; z-index: 9999; display: none;
-            flex-direction: column; opacity: 0; transition: opacity 0.3s;
-        }
+        #gameModal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 9999; display: none; flex-direction: column; opacity: 0; transition: opacity 0.3s; }
         #gameModal.show { display: flex; opacity: 1; }
-        
-        .modal-header {
-            background: rgba(30, 30, 30, 0.9); backdrop-filter: blur(10px);
-            height: 50px; display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; color: #fff;
-        }
+        .modal-header { background: rgba(30, 30, 30, 0.9); backdrop-filter: blur(10px); height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; color: #fff; }
         .modal-title { font-size: 16px; font-weight: 600; }
-        .btn-close {
-            background: #ff3b30; color: white; border: none; border-radius: 16px;
-            padding: 6px 16px; font-size: 14px; font-weight: bold; cursor: pointer;
-        }
+        .btn-close { background: #ff3b30; color: white; border: none; border-radius: 16px; padding: 6px 16px; font-size: 14px; font-weight: bold; cursor: pointer; }
         #modalIframe { flex: 1; width: 100%; border: none; background: #111; }
+
+        /* 锁屏专属渐变动画 */
+        #loveLock { transition: opacity 0.5s ease, transform 0.5s ease; }
     </style>
 </head>
 <body>
 
+    <!-- 💖 专属暗号锁屏界面 💖 -->
+    <div id="loveLock" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-gradient); z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);">
+        <div class="glass-card" style="text-align: center; padding: 40px 30px; max-width: 300px; width: 80%;">
+            <img src="./avatar_couple.jpg" alt="我们" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid white; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+            <h2 class="zcool-font" style="margin: 0 0 10px 0; color: #333;">专属秘密基地</h2>
+            <p style="font-size: 14px; color: #666; margin-bottom: 25px;">请输入乐乐和布布的专属暗号解锁</p>
+            
+            <input type="password" id="secretPwd" placeholder="输入暗号..." style="width: 100%; padding: 14px; border: 2px solid transparent; border-radius: 12px; background: rgba(255,255,255,0.9); text-align: center; font-size: 18px; margin-bottom: 15px; outline: none; box-sizing: border-box; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);" onfocus="this.style.borderColor='#007AFF'" onblur="this.style.borderColor='transparent'">
+            
+            <button onclick="checkPwd()" style="width: 100%; background: #007AFF; color: white; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);">进入乐园</button>
+            <p id="pwdError" style="color: #ff3b30; font-size: 14px; margin-top: 15px; display: none; margin-bottom: 0; font-weight: bold;">暗号不对哦，再想想！</p>
+        </div>
+    </div>
+
+    <!-- 正常页面内容 -->
     <div class="top-logo">
         <img src="./logo_lele.jpg" alt="lele" class="logo-img">
         <span class="logo-text zcool-font">lele</span>
@@ -245,38 +168,27 @@
             </div>
         </div>
 
-        <!-- 🌟 升级版 App Store 游戏大厅 🌟 -->
         <div class="app-store-container">
             <h1 class="store-title">游戏</h1>
-            <p class="store-subtitle">乐乐专属 • 精选高分神作</p>
+            <p class="store-subtitle">乐乐专属 • 精选高分像素神作</p>
 
-            <!-- 吸顶工具栏 -->
             <div class="store-sticky-header">
                 <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="搜索游戏 (如: 吃豆人)">
+                    <input type="text" id="searchInput" placeholder="搜索游戏 (如: 泡泡堂)">
                     <button class="btn-random" onclick="playRandom()">🎲 随便玩</button>
                 </div>
-                <div class="category-pills" id="categoryContainer">
-                    <!-- JS 生成分类 -->
-                </div>
+                <div class="category-pills" id="categoryContainer"></div>
             </div>
 
-            <!-- 今日精选 -->
             <div class="section-header">今日精选</div>
-            <div class="featured-scroll" id="featuredContainer">
-                <!-- JS 生成横向滑动卡片 -->
-            </div>
+            <div class="featured-scroll" id="featuredContainer"></div>
 
-            <!-- 全部游戏网格 -->
             <div class="section-header">经典必玩</div>
-            <div class="games-grid" id="gamesGrid">
-                <!-- JS 生成响应式网格 -->
-            </div>
+            <div class="games-grid" id="gamesGrid"></div>
         </div>
-
     </div>
 
-    <!-- 🎮 独立全屏游戏模态框 -->
+    <!-- 游戏弹窗 -->
     <div id="gameModal">
         <div class="modal-header">
             <span class="modal-title" id="modalTitle">正在加载...</span>
@@ -285,8 +197,36 @@
         <iframe id="modalIframe" src="" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
     </div>
 
-    <!-- 脚本逻辑 -->
     <script>
+        // --- 0. 锁屏验证逻辑 ---
+        if(localStorage.getItem('lele_unlocked') === 'true') {
+            document.getElementById('loveLock').style.display = 'none';
+        } else {
+            document.body.style.overflow = 'hidden'; // 锁定底层滑动
+        }
+
+        function checkPwd() {
+            // 👇 这里是你们的专属暗号，可以修改为你想要的任何字母或数字，目前是 1202
+            if(document.getElementById('secretPwd').value === '1202') {
+                localStorage.setItem('lele_unlocked', 'true');
+                document.getElementById('loveLock').style.opacity = '0';
+                document.getElementById('loveLock').style.transform = 'scale(1.1)';
+                document.body.style.overflow = 'auto'; // 恢复底层滑动
+                setTimeout(() => { document.getElementById('loveLock').style.display = 'none'; }, 500);
+            } else {
+                const err = document.getElementById('pwdError');
+                err.style.display = 'block';
+                err.classList.add('shake'); // 简单的错误反馈动画
+                setTimeout(() => err.classList.remove('shake'), 500);
+            }
+        }
+
+        // 支持敲击回车键解锁
+        document.getElementById('secretPwd').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') checkPwd();
+        });
+
+
         // --- 1. 计时器逻辑 ---
         const startDate = new Date('2019-12-02T01:00:00');
         function updateTimer() {
@@ -300,12 +240,15 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // --- 2. 游戏库数据配置（已精简保留最经典的 17 款神作） ---
+        // --- 2. 游戏库数据（已含 19 款神作） ---
         const baseURL = "https://pangggu.github.io/games/";
+        
         const rawGames = [
+            { id: "bnb", name: "泡泡堂", category: "双人", url: "https://pangggu.github.io/BnB/", featured: true },
+            { id: "runner_temple", name: "神庙逃亡", category: "跑酷", url: "https://pangggu.github.io/Runner_Temple/", featured: true },
             { id: "fireboy", name: "森林冰火人", category: "双人", url: "https://pangggu.github.io/FireboyAndWatergirl/game.html", featured: true },
             { id: "2048", name: "2048经典版", category: "益智", featured: true },
-            { id: "russianblock", name: "俄罗斯方块", category: "益智", featured: true },
+            { id: "russianblock", name: "俄罗斯方块", category: "益智" },
             { id: "fctank", name: "FC坦克大战", category: "射击", featured: true },
             { id: "pacman", name: "经典吃豆人", category: "动作" },
             { id: "fruit", name: "水果忍者", category: "休闲" },
@@ -318,16 +261,17 @@
             { id: "plane", name: "雷霆战机", category: "飞行" },
             { id: "shenjingmao", name: "围住神经猫", category: "益智" },
             { id: "candy", name: "糖果消消乐", category: "益智" },
+            { id: "doudizhu", name: "欢乐斗地主", category: "棋牌" },
             { id: "p2ball", name: "双人弹球", category: "双人" }
         ];
 
         const gamesData = rawGames.map(game => ({
             ...game,
             url: game.url || `${baseURL}${game.id}/index.html`,
-            img: `https://picsum.photos/seed/${game.id}/600/400`
+            img: `./covers/${game.id}.jpg`,
+            fallbackImg: `https://picsum.photos/seed/${game.id}/600/400`
         }));
 
-        // --- 3. UI 渲染与筛选逻辑 ---
         let currentCategory = '全部';
         let currentSearch = '';
 
@@ -339,7 +283,7 @@
             const featuredGames = gamesData.filter(g => g.featured);
             featuredContainer.innerHTML = featuredGames.map(game => `
                 <div class="featured-card" onclick="openGame('${game.url}', '${game.name}')">
-                    <img src="${game.img}" loading="lazy" alt="${game.name}">
+                    <img src="${game.img}" onerror="this.src='${game.fallbackImg}'" loading="lazy" alt="${game.name}">
                     <div class="featured-info">
                         <h3 class="featured-title">${game.name}</h3>
                         <div class="featured-tag">${game.category}</div>
@@ -363,7 +307,7 @@
             gridContainer.innerHTML = filtered.map(game => `
                 <div class="game-card" onclick="openGame('${game.url}', '${game.name}')">
                     <div class="game-cover-wrapper">
-                        <img class="game-cover" src="${game.img}" loading="lazy" alt="${game.name}">
+                        <img class="game-cover" src="${game.img}" onerror="this.src='${game.fallbackImg}'" loading="lazy" alt="${game.name}">
                     </div>
                     <div class="game-info">
                         <div class="game-name">${game.name}</div>
@@ -383,23 +327,13 @@
             `).join('');
         }
 
-        window.setCategory = function(cat) {
-            currentCategory = cat;
-            renderCategories();
-            renderGrid();
-        }
-
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            currentSearch = e.target.value;
-            renderGrid();
-        });
-
+        window.setCategory = function(cat) { currentCategory = cat; renderCategories(); renderGrid(); }
+        document.getElementById('searchInput').addEventListener('input', (e) => { currentSearch = e.target.value; renderGrid(); });
         window.playRandom = function() {
             const randomGame = gamesData[Math.floor(Math.random() * gamesData.length)];
             openGame(randomGame.url, randomGame.name);
         }
 
-        // --- 4. 模态窗 & iframe 生命周期管理 ---
         const modal = document.getElementById('gameModal');
         const iframe = document.getElementById('modalIframe');
         const modalTitle = document.getElementById('modalTitle');
@@ -417,9 +351,7 @@
             setTimeout(() => { iframe.src = ''; }, 300);
         }
 
-        renderFeatured();
-        renderCategories();
-        renderGrid();
+        renderFeatured(); renderCategories(); renderGrid();
     </script>
 </body>
 </html>
