@@ -235,7 +235,7 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // --- 2. 游戏库数据（泡泡堂已更新为指定链接） ---
+        // --- 2. 游戏库数据 ---
         const baseURL = "https://pangggu.github.io/games/";
         
         const rawGames = [
@@ -247,7 +247,8 @@
             { id: "fctank", name: "FC坦克大战", category: "射击", featured: true },
             { id: "pacman", name: "经典吃豆人", category: "动作" },
             { id: "fruit", name: "水果忍者", category: "休闲" },
-            { id: "flappybird", name: "像素鸟", category: "休闲", img: "./flappybird.jpg.jpg" },
+            // 精准匹配最新截图中带有双点的文件名 flappybird..jpg
+            { id: "flappybird", name: "像素鸟", category: "休闲", img: "./flappybird..jpg" },
             { id: "dinosaur", name: "暴走小恐龙", category: "休闲" },
             { id: "jump", name: "极限跳一跳", category: "休闲" },
             { id: "downfloor", name: "是男人就下100层", category: "动作" },
