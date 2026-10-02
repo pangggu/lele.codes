@@ -173,7 +173,7 @@
 
             <div class="store-sticky-header">
                 <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="搜索游戏 (如: 泡泡堂)">
+                    <input type="text" id="searchInput" placeholder="搜索游戏 (如: 黄金矿工)">
                     <button class="btn-random" onclick="playRandom()">🎲 随便玩</button>
                 </div>
                 <div class="category-pills" id="categoryContainer"></div>
@@ -235,19 +235,20 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // --- 2. 游戏库数据 ---
+        // --- 2. 游戏库数据（已移除糖果消消乐，加入黄金矿工和象棋） ---
         const baseURL = "https://pangggu.github.io/games/";
         
         const rawGames = [
             { id: "bnb", name: "泡泡堂", category: "双人", url: "https://h3aajdlti6teq.kimi.site", featured: true },
+            { id: "goldminer", name: "黄金矿工", category: "休闲", url: "https://pangggu.github.io/Gold-Mining-Game-main/", img: "./huangjinkuanggong.jpg", featured: true },
             { id: "runner_temple", name: "神庙逃亡", category: "跑酷", url: "https://pangggu.github.io/Runner_Temple/", featured: true },
             { id: "fireboy", name: "森林冰火人", category: "双人", url: "https://pangggu.github.io/FireboyAndWatergirl/game.html", featured: true },
+            { id: "xiangqi", name: "中国象棋", category: "棋牌", url: "https://pangggu.github.io/xiangqi/", img: "./xiangqi.jpg" },
             { id: "2048", name: "2048经典版", category: "益智", featured: true },
             { id: "russianblock", name: "俄罗斯方块", category: "益智" },
             { id: "fctank", name: "FC坦克大战", category: "射击", featured: true },
             { id: "pacman", name: "经典吃豆人", category: "动作" },
             { id: "fruit", name: "水果忍者", category: "休闲" },
-            // 精准匹配最新截图中带有双点的文件名 flappybird..jpg
             { id: "flappybird", name: "像素鸟", category: "休闲", img: "./flappybird..jpg" },
             { id: "dinosaur", name: "暴走小恐龙", category: "休闲" },
             { id: "jump", name: "极限跳一跳", category: "休闲" },
@@ -256,7 +257,6 @@
             { id: "arpg", name: "冒险岛 ARPG", category: "动作" },
             { id: "plane", name: "雷霆战机", category: "飞行" },
             { id: "shenjingmao", name: "围住神经猫", category: "益智" },
-            { id: "candy", name: "糖果消消乐", category: "益智" },
             { id: "p2ball", name: "双人弹球", category: "双人" }
         ];
 
